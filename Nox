@@ -1,6 +1,6 @@
 math.randomseed(math.floor(tick() * 1e7) % (2^31)) local _INSTANCE_TOKEN = string.format("%08x-%08x-%08x", math.floor(tick() * 1e4) % 0x100000000, math.floor(os.clock() * 1e6) % 0x100000000, math.random(0, 0x7FFFFFFF) ) local _instDead = false if _G._AKAI_DUELS_KILL and typeof(_G._AKAI_DUELS_KILL) == "Instance" then pcall(function() _G._AKAI_DUELS_KILL:Fire() end) task.defer(function() pcall(function() _G._AKAI_DUELS_KILL:Destroy() end) end) end _G._AKAI_DUELS_TOKEN = _INSTANCE_TOKEN local function isAlive() return not _instDead and _G._AKAI_DUELS_TOKEN == _INSTANCE_TOKEN end local _rawConns = {} local function rawConn(signal, fn) local conn conn = signal:Connect(function(...) if not isAlive() then pcall(function() conn:Disconnect() end) return end fn(...) end) table.insert(_rawConns, conn) return conn end local function _killRawConns() for _, c in ipairs(_rawConns) do pcall(function() c:Disconnect() end) end table.clear(_rawConns) end local _killBE = Instance.new("BindableEvent") _G._AKAI_DUELS_KILL = _killBE _killBE.Event:Connect(function() _instDead = true _killRawConns() end) local _introComplete = false
  do
--- uranium.cc intro (modified for BLOCK DUELS) | LocalScript standalone
+-- uranium.cc intro (modified for NOX DUELS) | LocalScript standalone
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local Lighting = game:GetService("Lighting")
@@ -1942,3 +1942,4 @@ end
 -- ============================================================
 -- END FIXED KEYBINDS
 -- ============================================================
+
